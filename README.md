@@ -18,7 +18,7 @@ As a result of this problem, the package fails to build.
 
 4. Note that etcd has [a vendor folder](https://github.com/coreos/etcd/tree/master/vendor) in the root of its repository, and that vendor folder includes golang.org/x/net/context.
 
-At build time, the go toolchain resolves the import path `"golang.org/x/net/context"` as specified in github.com/coreos/etcd/etcdserver/etcdserverpb to the copy stored at $GOPATH/src/github.com/coreos/etcd/vendor/golang.org/x/net/context.
+At build time, the go toolchain resolves the import path `"golang.org/x/net/context"` as specified in etcdserverpb to the copy stored at $GOPATH/src/github.com/coreos/etcd/vendor/golang.org/x/net/context.
 But, it resolves the same import path as specified in wtf.go to _a different copy_, by default the plain $GOPATH/src/golang.org/x/net/context.
 Note that it's _impossible_ for the import path specified in wtf.go to resolve to the vendored copy in github.com/coreos/etcd/vendor.
 
