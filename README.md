@@ -31,8 +31,31 @@ Because the same import path resolves to two different concrete packages, and no
 		want Compact("github.com/coreos/etcd/vendor/golang.org/x/net/context".Context, *etcdserverpb.CompactionRequest) (*etcdserverpb.CompactionResponse, error)
 ```
 
+## More context
+
+- [My golang-nuts post](https://groups.google.com/d/msg/golang-nuts/AnMr9NL6dtc/UnyUUKcMCAAJ)
+- [A similar golang-dev post](https://groups.google.com/forum/#!msg/golang-dev/WebP4dLV1b0/Lhk4hpwJEgAJ)
+- https://github.com/coreos/etcd/issues/4913
+
 ## Solutions
 
-I don't know of an obvious solution.
-Suggestions, with pros and cons, will be added here in time.
+### Restructure etcd repos
 
+coreos/etcd could be split into two repos:
+
+- coreos/etcdbin, containing all `package main` binaries, with vendoring
+- coreos/etcdlib, containing all non-`package main` libraries, without vendoring
+
+This imposes a burden on the etcd developers, but appears to be the best solution for consumers.
+
+### Use a vendoring tool to build
+
+Daniel Theophanes notes that
+
+>  The package won't [build] with a git pull or `go get`, but it will compile correctly when you run `govendor get github.com/peterbourgon/wtf`. Ensure you've run `go get -u github.com/kardianos/govendor` first.
+
+Requiring a third-party build tool to build a project that just happens to depend on a package that uses vendoring is obviously not an ideal outcome. Go developers have the expectation that `go get` will work in the general case.
+
+### Others
+
+I'll be adding more solutions, with pros and cons, as they are discovered.
