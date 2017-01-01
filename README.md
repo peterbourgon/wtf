@@ -56,6 +56,21 @@ Daniel Theophanes notes that
 
 Requiring a third-party build tool to build a project that just happens to depend on a package that uses vendoring is obviously not an ideal outcome. Go developers have the expectation that `go get` will work in the general case.
 
+### Allow direct references to vendored packages
+
+The simplest solution by far would be to allow references to 
+`"github.com/coreos/etcd/vendor/golang.org/x/net/context".Context` from code that is not in `github.com/coreoes/etcd` but rather external clients of it.
+
+This is a clean solution. There is no magic, and you can create the types that etcd requires.
+
+### Start a new convention
+
+Since the `vendor/` directory  unfortunately combines the orthogonal conerns of private code and library version-locking, simply abandon it as a mechanism for library version-locking and let it do only the job it does now: make libraries internal/private to a given project.
+
+Then start a new directory convention. Designate a publically reachable directory within your project. Let's call it `zendor/` for the sake of discussion. Inside `zendor/` you copy any libraries that you want to version-lock and also make available to clients of your library. Refer to these paths explicitly in your import.
+
+In summary: one could argue that `vendor` should have been named `internal` to begin with. Nonetheless, given the situation now where one wants non-internal but vendored code, it may be best to simply start a new convention.
+
 ### Others
 
 I'll be adding more solutions, with pros and cons, as they are discovered.
