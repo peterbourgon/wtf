@@ -56,6 +56,13 @@ Daniel Theophanes notes that
 
 Requiring a third-party build tool to build a project that just happens to depend on a package that uses vendoring is obviously not an ideal outcome. Go developers have the expectation that `go get` will work in the general case.
 
+### Allow direct references to vendored packages
+
+The simplest solution by far would be to allow references to 
+`"github.com/coreos/etcd/vendor/golang.org/x/net/context".Context` from code that is not in `github.com/coreoes/etcd` but rather external clients of it.
+
+This is a clean solution. There is no magic, and you can create the types that etcd requires.
+
 ### Others
 
 I'll be adding more solutions, with pros and cons, as they are discovered.
